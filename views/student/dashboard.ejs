@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <%- include('../partials/nav') %>
+        
+        <div class="container">
+            <h2>Welcome, <%= currentUser.name %></h2>
+            
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+
+            <div class="dashboard-section">
+                <h3>Recent Marks</h3>
+                <% if (marks && marks.length > 0) { %>
+                    <div class="marks-list">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Midterm</th>
+                                    <th>Assignment</th>
+                                    <th>Attendance</th>
+                                    <th>Updated By</th>
+                                    <th>Last Updated</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% marks.forEach(mark => { %>
+                                    <tr>
+                                        <td><%= mark.subject %></td>
+                                        <td><%= mark.midterm %></td>
+                                        <td><%= mark.assignment %></td>
+                                        <td><%= mark.attendance %>%</td>
+                                        <td><%= mark.updatedBy.name %></td>
+                                        <td><%= new Date(mark.updatedAt).toLocaleDateString() %></td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                        <a href="/student/marks" class="btn btn-primary">View All Marks</a>
+                    </div>
+                <% } else { %>
+                    <p>No marks available yet.</p>
+                <% } %>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>Recent Notifications</h3>
+                <% if (notifications && notifications.length > 0) { %>
+                    <div class="notifications-list">
+                        <% notifications.forEach(notification => { %>
+                            <div class="notification-card">
+                                <h4><%= notification.title %></h4>
+                                <p><%= notification.description %></p>
+                                <small>
+                                    Posted by: <%= notification.postedBy.name %> | 
+                                    <%= new Date(notification.createdAt).toLocaleDateString() %>
+                                </small>
+                            </div>
+                        <% }); %>
+                    </div>
+                    <a href="/student/notifications" class="btn btn-primary">View All Notifications</a>
+                <% } else { %>
+                    <p>No notifications available.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

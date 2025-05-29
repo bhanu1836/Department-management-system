@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Notifications</title>
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    
+    <div class="container">
+        <h1>Manage Notifications</h1>
+
+        <% if (success && success.length > 0) { %>
+            <div class="alert alert-success"><%= success %></div>
+        <% } %>
+        
+        <% if (error && error.length > 0) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <!-- Add Notification Form -->
+        <div class="notification-form">
+            <h2>Add New Notification</h2>
+            <form action="/faculty/notifications/add" method="POST">
+                <div class="form-group">
+                    <label for="title">Title:</label>
+                    <input type="text" id="title" name="title" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="type">Type:</label>
+                    <select id="type" name="type" required>
+                        <option value="general">General</option>
+                        <option value="academic">Academic</option>
+                        <option value="placement">Placement</option>
+                    </select>
+                </div>
+
+                <div class="form-group placement-fields">
+                    <label for="company">Company:</label>
+                    <input type="text" id="company" name="company">
+                </div>
+
+                <div class="form-group">
+                    <label for="location">Location:</label>
+                    <input type="text" id="location" name="location">
+                </div>
+
+                <div class="form-group">
+                    <label for="deadline">Deadline:</label>
+                    <input type="date" id="deadline" name="deadline">
+                </div>
+
+                <div class="form-group">
+                    <label for="requirements">Requirements (comma-separated):</label>
+                    <input type="text" id="requirements" name="requirements">
+                </div>
+
+                <button type="submit">Add Notification</button>
+            </form>
+        </div>
+
+        <!-- List of Notifications -->
+        <div class="notifications-list">
+            <h2>Posted Notifications</h2>
+            <% if (notifications && notifications.length > 0) { %>
+                <% notifications.forEach(notification => { %>
+                    <div class="notification-card">
+                        <h3><%= notification.title %></h3>
+                        <p class="description"><%= notification.description %></p>
+                        <div class="meta">
+                            <span class="type">Type: <%= notification.type %></span>
+                            <% if (notification.deadline) { %>
+                                <span class="deadline">Deadline: <%= new Date(notification.deadline).toLocaleDateString() %></span>
+                            <% } %>
+                            <span class="posted-by">Posted by: <%= notification.postedBy.name %></span>
+                        </div>
+                        <% if (currentUser && notification.postedBy._id.toString() === currentUser._id.toString()) { %>
+                            <div class="actions">
+                                <a href="/faculty/notifications/edit/<%= notification._id %>" class="btn-edit">Edit</a>
+                                <form action="/faculty/notifications/delete/<%= notification._id %>" method="POST" class="delete-form">
+                                    <button type="submit" class="btn-delete">Delete</button>
+                                </form>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }); %>
+            <% } else { %>
+                <p>No notifications found.</p>
+            <% } %>
+        </div>
+    </div>
+
+    <script>
+        // Show/hide placement fields based on notification type
+        document.getElementById('type').addEventListener('change', function() {
+            const placementFields = document.querySelector('.placement-fields');
+            if (this.value === 'placement') {
+                placementFields.style.display = 'block';
+            } else {
+                placementFields.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

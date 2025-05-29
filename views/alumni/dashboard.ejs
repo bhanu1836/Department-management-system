@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Dashboard - College Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <%- include('../partials/nav') %>
+        
+        <div class="container">
+            <h2>Welcome, <%= currentUser.name %></h2>
+            
+            <div class="dashboard-section">
+                <h3>Add New Notification</h3>
+                <form action="/alumni/notifications/add" method="POST" class="notification-form">
+                    <div class="form-group">
+                        <label for="title">Title</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="description">Description</label>
+                        <textarea id="description" name="description" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="type">Type</label>
+                        <select id="type" name="type" required>
+                            <option value="internship">Internship</option>
+                            <option value="placement">Placement</option>
+                            <option value="general">General</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" id="company" name="company" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="location">Location</label>
+                        <input type="text" id="location" name="location" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deadline">Application Deadline</label>
+                        <input type="date" id="deadline" name="deadline" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="requirements">Requirements (comma-separated)</label>
+                        <textarea id="requirements" name="requirements" required></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">Add Notification</button>
+                </form>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>Your Posted Notifications</h3>
+                <% if (notifications && notifications.length > 0) { %>
+                    <div class="notifications-list">
+                        <% notifications.forEach(notification => { %>
+                            <div class="notification-card">
+                                <h4><%= notification.title %></h4>
+                                <p class="description"><%= notification.description %></p>
+                                <div class="notification-details">
+                                    <p><strong>Type:</strong> <%= notification.type %></p>
+                                    <p><strong>Company:</strong> <%= notification.company %></p>
+                                    <p><strong>Location:</strong> <%= notification.location %></p>
+                                    <p><strong>Deadline:</strong> <%= new Date(notification.deadline).toLocaleDateString() %></p>
+                                    <% if (notification.requirements && notification.requirements.length > 0) { %>
+                                        <p><strong>Requirements:</strong></p>
+                                        <ul>
+                                            <% notification.requirements.forEach(req => { %>
+                                                <li><%= req %></li>
+                                            <% }); %>
+                                        </ul>
+                                    <% } %>
+                                </div>
+                                <div class="notification-actions">
+                                    <a href="/alumni/notifications/edit/<%= notification._id %>" class="btn btn-edit">Edit</a>
+                                    <form action="/alumni/notifications/delete/<%= notification._id %>" method="POST" style="display: inline;">
+                                        <button type="submit" class="btn btn-delete" onclick="return confirm('Are you sure you want to delete this notification?')">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        <% }); %>
+                    </div>
+                <% } else { %>
+                    <p class="no-notifications">You haven't posted any notifications yet.</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body> 
+</html>

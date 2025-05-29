@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faculty Dashboard - College Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="dashboard">
+        <%- include('../partials/nav') %>
+        
+        <div class="container">
+            <h2>Welcome, <%= currentUser.name %></h2>
+            
+            <div class="dashboard-actions">
+                <a href="/faculty/marks" class="btn">Manage Marks</a>
+                <a href="/faculty/notifications" class="btn">Manage Notifications</a>
+            </div>
+            
+            <div class="dashboard-section">
+                <h3>Recent Notifications</h3>
+                <% if (notifications.length > 0) { %>
+                    <div class="notifications-list">
+                        <% notifications.forEach(notification => { %>
+                            <div class="notification-card">
+                                <h4><%= notification.title %></h4>
+                                <p><%= notification.description %></p>
+                                <small>Posted by: <%= notification.postedBy.name %></small>
+                            </div>
+                        <% }) %>
+                    </div>
+                <% } else { %>
+                    <p>No recent notifications</p>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

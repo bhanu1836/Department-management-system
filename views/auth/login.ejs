@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - College Portal</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="auth-form">
+            <h2>Login</h2>
+            
+            <% if (error && error.length > 0) { %>
+                <div class="alert alert-danger"><%= error %></div>
+            <% } %>
+            
+            <% if (success && success.length > 0) { %>
+                <div class="alert alert-success"><%= success %></div>
+            <% } %>
+            
+            <form action="/login" method="POST">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Login</button>
+            </form>
+            
+            <p class="auth-links">
+                Don't have an account? <a href="/register">Register</a>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Choose Role</title>
+</head>
+<body>
+    <div class="container">
+        <h1>Choose Registration Type</h1>
+        
+        <% if (error && error.length > 0) { %>
+            <div class="alert alert-danger"><%= error %></div>
+        <% } %>
+
+        <div class="role-choices">
+            <a href="/register/student" class="role-card">
+                <h2>Student</h2>
+                <p>Register as a current student</p>
+            </a>
+
+            <a href="/register/faculty" class="role-card">
+                <h2>Faculty</h2>
+                <p>Register as a faculty member</p>
+            </a>
+
+            <a href="/register/alumni" class="role-card">
+                <h2>Alumni</h2>
+                <p>Register as a former student</p>
+            </a>
+        </div>
+
+        <div class="auth-links">
+            <p>Already have an account? <a href="/login">Login here</a></p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<nav class="navbar">
+    <div class="nav-brand">
+        <a href="/">Department Management System</a>
+    </div>
+    <div class="nav-links">
+        <% if (currentUser) { %>
+            <% if (currentUser.role === 'student') { %>
+                <a href="/student/dashboard">Dashboard</a>
+                <a href="/student/profile">Profile</a>
+            <% } else if (currentUser.role === 'faculty') { %>
+                <a href="/faculty/dashboard">Dashboard</a>
+                <a href="/faculty/profile">Profile</a>
+            <% } else if (currentUser.role === 'alumni') { %>
+                <a href="/alumni/dashboard">Dashboard</a>
+                <a href="/alumni/profile">Profile</a>
+            <% } %>
+            <a href="/notifications">Notifications</a>
+            <a href="/logout">Logout</a>
+        <% } else { %>
+            <a href="/login">Login</a>
+            <a href="/register">Register</a>
+        <% } %>
+    </div>
+</nav>
